@@ -1,7 +1,3 @@
-console.log('Jira integration tool is running.');
-
-var autoCheckout = false;
-
 function onBranchCheckoutButtonClicked(event) {
   document.dispatchEvent(new CustomEvent('branchCheckoutTriggeredEvent', {
     detail: {
@@ -20,13 +16,7 @@ function onBranchDialogMutation(mutations) {
   mutations.forEach(mutation => {
     mutation.addedNodes.forEach(addedNode => {
       $(addedNode).find('.branch-row .branch .branch-link').each((i, branchLinkNode, arr) => {
-        var button = createBranchCheckoutButton(branchLinkNode.innerText).insertAfter(branchLinkNode);
-        if (autoCheckout) {
-          autoCheckout = false;
-          button.click();
-          $('#aui-dialog-close').click();
-          return false;
-        }
+        createBranchCheckoutButton(branchLinkNode.innerText).insertAfter(branchLinkNode);
       });
     })
   })
