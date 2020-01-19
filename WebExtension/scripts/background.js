@@ -1,11 +1,11 @@
-const connection = chrome.runtime.connectNative('JiraIntegrationToolHost');
+const connection = browser.runtime.connectNative('JiraIntegrationToolHost');
 
 function onMessageFromContentScript(message) {
   sendMessageToNativeHost(message);
 }
 
 function onMessageFromNativeHost(message) {
-  chrome.notifications.create({
+  browser.notifications.create({
     'type': 'basic',
     'title': 'Jira integration tool',
     'message': JSON.stringify(message)
@@ -16,7 +16,7 @@ function sendMessageToNativeHost(message) {
   try {
     connection.postMessage(message);
   } catch (e) {
-    chrome.notifications.create({
+    browser.notifications.create({
       'type': 'basic',
       'title': 'Failed to communicate with a native host',
       'message': e.message
@@ -25,4 +25,4 @@ function sendMessageToNativeHost(message) {
 }
 
 connection.onMessage.addListener(onMessageFromNativeHost);
-chrome.runtime.onMessage.addListener(onMessageFromContentScript);
+browser.runtime.onMessage.addListener(onMessageFromContentScript);
