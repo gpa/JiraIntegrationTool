@@ -4,7 +4,7 @@ import json
 import struct
 import platform
 
-versionString = 'python-host-0.1.0'
+versionString = 'python-host-0.1.0-alpha'
 
 class NativeHostService:
     def ping(self, params):
