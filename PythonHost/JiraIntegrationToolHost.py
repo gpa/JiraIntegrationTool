@@ -35,11 +35,11 @@ class EnvironmentInstaller:
             remoteManifestPath = path.expanduser('~/Library/Application Support/Mozilla/NativeMessagingHosts/JiraIntegrationToolHost.json')
 
         if platformName == 'Windows':
-            pythonExecutionProxyPath = path.dirname(localScriptPath) + r'\JiraIntegrationToolHost.bat'
-            with open(pythonExecutionProxyPath, 'w+') as batFile:
-                batFile.write("@echo off\r\ncall python3 " + localScriptPath + r" %0 %1 %2")
-            localScriptPath = pythonExecutionProxyPath
             os.system(r'reg add "HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\JiraIntegrationToolHost" /ve /t REG_SZ /d "'+localManifestPath+'" /f')
+            pythonExecutionProxyPath = path.join(path.dirname(localScriptPath), r'JiraIntegrationToolHost.bat')
+            with open(pythonExecutionProxyPath, 'w+') as batFile:
+                batFile.write(f'@echo off\r\ncall python3 {localScriptPath} %0 %1 %2')
+            localScriptPath = pythonExecutionProxyPath
 
         with open(localManifestPath, 'r+') as localManifestFile:
             manifestData = json.load(localManifestFile)
