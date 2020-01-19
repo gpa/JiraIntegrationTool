@@ -1,9 +1,14 @@
 function onBranchCheckoutButtonClicked(event) {
-  document.dispatchEvent(new CustomEvent('branchCheckoutTriggeredEvent', {
-    detail: {
-      branchId: $(event.currentTarget).data('branch-id')
-    }
-  }));
+  const branchWithIssueDetails = {
+      branchId: $(event.currentTarget).data('branch-id'),
+      projectName: $("#project-name-val").text(),
+      issueKey: $("#key-val").text(),
+      issueName: $("#summary-val").text(),
+      issueType: $("#type-val").text().trim(),
+      issuePriority: $("#priority-val").text().trim(),
+      issueUrl: window.location.href,
+  }
+  document.dispatchEvent(new CustomEvent('branchCheckoutTriggeredEvent', { detail: branchWithIssueDetails }));
 }
 
 function createBranchCheckoutButton(branchId) {

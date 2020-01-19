@@ -3,7 +3,6 @@ import sys
 import json
 import struct
 import platform
-import subprocess
 
 versionString = 'python-host-0.1.0'
 
@@ -13,18 +12,20 @@ class NativeHostService:
 
     def checkoutBranch(self, params):
         branchId = params['branchId']
-        os.chdir('absolute/path/to/your/repository')
+        os.chdir(params.get('repositoryPath'))
         os.system(f'git fetch origin/{branchId}')
-        os.system(f'git checkout --track origin/{branchId}')
-        return { 'status': f'checked out {branchId}' }
+        if platform.system() == 'Windows':
+            os.system("start /wait cmd /c git checkout --track origin/{branchId}")
+        else:
+            os.system(f'git checkout --track origin/{branchId}')
+        return f"checking out origin/{branchId}"
 
 class EnvironmentInstaller:
     def installNativeMessagingManifest(self):
         from os import path
-        from platform import system
         from pathlib import Path
 
-        platformName = system()
+        platformName = platform.system()
         localScriptPath = path.realpath(__file__)
         localManifestPath = path.join(path.dirname(localScriptPath), 'JiraIntegrationToolHost.json')
         

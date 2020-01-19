@@ -9,12 +9,12 @@ class NativeHost {
     this._pendingCalls = {}
   }
 
-  ping() {
+  ping(versionString) {
     return this._execute('ping', { sender: versionString });
   }
 
-  checkoutBranch(branchId) {
-    return this._execute('checkoutBranch', { branchId: branchId });
+  checkoutBranch(branchWithIssueDetails) {
+    return this._execute('checkoutBranch', branchWithIssueDetails);
   }
 
   _execute(method, params) {
@@ -47,20 +47,59 @@ class NativeHost {
     }
 }
 
-const nativeHost = new NativeHost();
-browser.runtime.onMessage.addListener(async (message) => {
-  function showMessage(message) {
+class JiraIntegrationTool {
+
+  constructor() {
+    this.nativeHost = new NativeHost();
+    this.updateConfiguration();
+  }
+
+  async checkoutBranch(branchWithIssueDetails) {
+    branchWithIssueDetails['repositoryPath'] = this.options['repositoryPath'];
+    return await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
+  }
+
+  async ping() {
+    return await this._execute(async () => await this.nativeHost.ping(versionString));
+  }
+
+  async updateConfiguration() {
+    this.options = await browser.storage.local.get(['host', 'repositoryPath']);
+    if (!this.options['host']) {
+      browser.runtime.openOptionsPage()
+      return;
+    }
+    if (this.contentScript) {
+      this.contentScript.unregister();
+    }
+    this.contentScript = await browser.contentScripts.register({
+      matches: [this.options['host']],
+      js: [{
+        file: 'scripts/contentscript.js'
+      }],
+      runAt: "document_end"
+    });
+  }
+
+  async _execute(func) {
+    try {
+      const result = await func();
+      this._showMessage(result);
+      return result;
+    } catch(e) {
+      this._showMessage(JSON.stringify(e));
+      return null;
+    }
+  }
+
+  _showMessage(message) {
     browser.notifications.create({
       'type': 'basic',
-      'title': 'Jira integration tool',
+      'title': 'Jira Integration Tool',
       'message': message
     });
   }
-  
-  try {
-    const result = await nativeHost[message.method](message.params);
-    showMessage(result);
-  } catch(e) {
-    showMessage(JSON.stringify(e));
-  }
-});
+}
+
+const jiraIntegrationToolService = new JiraIntegrationTool();
+browser.runtime.onMessage.addListener(message => jiraIntegrationToolService[message['method']](message.params));
