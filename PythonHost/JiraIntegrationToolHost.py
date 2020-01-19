@@ -27,18 +27,19 @@ class EnvironmentInstaller:
         platformName = system()
         localScriptPath = path.realpath(__file__)
         localManifestPath = path.join(path.dirname(localScriptPath), 'JiraIntegrationToolHost.json')
+        
         remoteManifestPath = localManifestPath
-
         if platformName == 'Linux':
-            remoteManifestPath = path.join(path.expanduser('~'), '.mozilla/native-messaging-hosts/JiraIntegrationToolHost.json')
+            remoteManifestPath = path.expanduser('~/.mozilla/native-messaging-hosts/JiraIntegrationToolHost.json')
         elif platformName == 'Darwin':
-            remoteManifestPath = path.join(path.expanduser('~'), 'Library/Application Support/Mozilla/NativeMessagingHosts/JiraIntegrationToolHost.json')
-        elif platformName == 'Windows':
-            os.system(r'reg add "HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\JiraIntegrationToolHost" /ve /t REG_SZ /d "'+localManifestPath+'" /f')
+            remoteManifestPath = path.expanduser('~/Library/Application Support/Mozilla/NativeMessagingHosts/JiraIntegrationToolHost.json')
+
+        if platformName == 'Windows':
             pythonExecutionProxyPath = path.dirname(localScriptPath) + r'\JiraIntegrationToolHost.bat'
             with open(pythonExecutionProxyPath, 'w+') as batFile:
                 batFile.write("@echo off\r\ncall python3 " + localScriptPath + r" %0 %1 %2")
             localScriptPath = pythonExecutionProxyPath
+            os.system(r'reg add "HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\JiraIntegrationToolHost" /ve /t REG_SZ /d "'+localManifestPath+'" /f')
 
         with open(localManifestPath, 'r+') as localManifestFile:
             manifestData = json.load(localManifestFile)
@@ -74,14 +75,11 @@ class NativeMessagingChannel:
         sys.stdout.buffer.write(encodedContent)
         sys.stdout.buffer.flush()
 
-    def sendResponse(self, incomingMessage, outgoingMessage):
-        self.sendMessage({ 'jsonrpc': '2.0', 'result': outgoingMessage, 'id': incomingMessage['id']})
-
-    def sendErrorResponse(self, incomingMessage, outgoingError):
-        self.sendMessage({ 'jsonrpc': '2.0', 'error': outgoingError, 'id': incomingMessage['id']})
-
-    def handleMessage(self, incomingMessage):
-        return getattr(self.nativeHostService, incomingMessage['method'])(incomingMessage['params'])
+    def sendResponse(self, incomingMessage, outgoingMessage, isError = False):
+        if not isError:
+            self.sendMessage({ 'jsonrpc': '2.0', 'result': outgoingMessage, 'id': incomingMessage['id']})
+        else:
+            self.sendMessage({ 'jsonrpc': '2.0', 'error': outgoingMessage, 'id': incomingMessage['id']})
 
     def waitForMessages(self):
         while True:
@@ -91,7 +89,7 @@ class NativeMessagingChannel:
                 serviceMethodResult = serviceMethod(incomingMessage['params'])
                 self.sendResponse(incomingMessage, serviceMethodResult)
             except BaseException as error:
-                self.sendErrorResponse(incomingMessage, 'An exception occurred: {}'.format(error))
+                self.sendResponse(incomingMessage, 'An exception occurred: {}'.format(error), isError = True)
  
 if len(sys.argv) > 1:
     NativeMessagingChannel(NativeHostService()).waitForMessages()
