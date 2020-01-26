@@ -3,7 +3,7 @@ function onBranchCheckoutButtonClicked(event) {
       branchId: $(event.currentTarget).data('branch-id'),
       projectName: $("#project-name-val").text(),
       issueId: $("#key-val").text(),
-      issueName: $("#summary-val").text(),
+      issueTitle: $("#summary-val").text(),
       issueType: $("#type-val").text().trim(),
       issuePriority: $("#priority-val").text().trim(),
       issueUrl: window.location.href,

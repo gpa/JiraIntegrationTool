@@ -11,11 +11,12 @@ class NativeHostService:
         return { 'receiver': versionString }
 
     def checkoutBranch(self, params):
-        scriptArguments = r'\"' + params['defaultRepositoryPath'] + r'\" ' + params['branchId'] + ' ' + params['issueId'] + r' \"' + params['projectName'] + r'\" \"' + params['issueUrl'] + r'\"  \"' + params['issueName'] + r'\" ' + params['issueType'] + ' ' + params['issuePriority']
+        scriptArguments = (rf'checkoutBranch \"{params["defaultRepositoryPath"]}\" {params["branchId"]} {params["issueId"]}'
+            rf' \"{params["projectName"]}\" \"{params["issueUrl"]}\" \"{params["issueTitle"]}\" {params["issueType"]} {params["issuePriority"]}')
         if platform.system() == 'Windows':
-            os.system(r'start "" "%ProgramFiles%\\Git\\git-bash.exe" -c "./actions.sh checkoutBranch ' + scriptArguments + r'"')
+            os.system(rf'start "" "%ProgramFiles%\\Git\\git-bash.exe" -c "./actions.sh {scriptArguments}"')
         else:
-            os.system(f'x-terminal-emulator -e ./actions.sh {scriptArguments}') #TODO
+            os.system(rf'x-terminal-emulator -e ./actions.sh {scriptArguments}') #TODO
 
 class EnvironmentInstaller:
     def installNativeMessagingManifest(self):
@@ -33,7 +34,8 @@ class EnvironmentInstaller:
             remoteManifestPath = path.expanduser('~/Library/Application Support/Mozilla/NativeMessagingHosts/JiraIntegrationToolHost.json')
 
         if platformName == 'Windows':
-            os.system(r'reg add "HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\JiraIntegrationToolHost" /ve /t REG_SZ /d "'+localManifestPath+'" /f')
+            regKey = r"HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\JiraIntegrationToolHost"
+            os.system(rf'reg add "{regKey}" /ve /t REG_SZ /d "{localManifestPath}" /f')
             pythonExecutionProxyPath = path.join(path.dirname(localScriptPath), r'JiraIntegrationToolHost.bat')
             with open(pythonExecutionProxyPath, 'w+') as batFile:
                 batFile.write(f'@echo off\r\ncall python3 {localScriptPath} %0 %1 %2')
