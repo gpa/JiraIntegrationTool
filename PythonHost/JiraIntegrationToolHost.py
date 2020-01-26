@@ -38,7 +38,7 @@ class EnvironmentInstaller:
             os.system(rf'reg add "{regKey}" /ve /t REG_SZ /d "{localManifestPath}" /f')
             pythonExecutionProxyPath = path.join(path.dirname(localScriptPath), r'JiraIntegrationToolHost.bat')
             with open(pythonExecutionProxyPath, 'w+') as batFile:
-                batFile.write(f'@echo off\r\ncall python3 {localScriptPath} %0 %1 %2')
+                batFile.write(f'@echo off\r\ncall py -3 {localScriptPath} %0 %1 %2')
             localScriptPath = pythonExecutionProxyPath
 
         with open(localManifestPath, 'r+') as localManifestFile:
