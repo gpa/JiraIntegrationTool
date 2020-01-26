@@ -28,18 +28,21 @@ function onBranchDialogMutation(mutations) {
 }
 
 function onBodyMutation(mutations) {
-  mutations.forEach(mutation => {
-    mutation.addedNodes.forEach(addedNode => {
+  for (let mutation of mutations) {
+    for (let addedNode of mutation.addedNodes) {
       if (addedNode.id == 'devstatus-branch-detail-dialog' && addedNode.classList.contains('jira-dialog-content-ready')) {
         dialogMutationObserver = new MutationObserver(onBranchDialogMutation);
         dialogMutationObserver.observe(addedNode, { childList: true, subtree: true });
+        return;
       }
-    });
-  });
+    }
+  }
 }
 
-new MutationObserver(onBodyMutation)
+$(document).ready(function() {
+  new MutationObserver(onBodyMutation)
   .observe(document.body, {
     childList: true,
     subtree: false
   });
+});
