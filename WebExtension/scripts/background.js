@@ -56,7 +56,6 @@ class JiraIntegrationTool {
 
   async checkoutBranch(branchWithIssueDetails) {
     branchWithIssueDetails['defaultRepositoryPath'] = this.options['defaultRepositoryPath'];
-    console.log(this.options['defaultRepositoryPath']);
     const response = await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
     this._showMessage(response);
   }
