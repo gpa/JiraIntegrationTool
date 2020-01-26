@@ -11,14 +11,11 @@ class NativeHostService:
         return { 'receiver': versionString }
 
     def checkoutBranch(self, params):
-        branchId = params['branchId']
-        os.chdir(params.get('repositoryPath'))
-        os.system(f'git fetch origin/{branchId}')
+        scriptArguments = r'\"' + params['defaultRepositoryPath'] + r'\" ' + params['branchId'] + ' ' + params['issueId'] + r' \"' + params['projectName'] + r'\" \"' + params['issueUrl'] + r'\"  \"' + params['issueName'] + r'\" ' + params['issueType'] + ' ' + params['issuePriority']
         if platform.system() == 'Windows':
-            os.system("start /wait cmd /c git checkout --track origin/{branchId}")
+            os.system(r'start "" "%ProgramFiles%\\Git\\git-bash.exe" -c "./actions.sh checkoutBranch ' + scriptArguments + r'"')
         else:
-            os.system(f'git checkout --track origin/{branchId}')
-        return f"checking out origin/{branchId}"
+            os.system(f'x-terminal-emulator -e ./actions.sh {scriptArguments}') #TODO
 
 class EnvironmentInstaller:
     def installNativeMessagingManifest(self):

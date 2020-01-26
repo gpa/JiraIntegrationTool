@@ -2,7 +2,7 @@ function onBranchCheckoutButtonClicked(event) {
   const branchWithIssueDetails = {
       branchId: $(event.currentTarget).data('branch-id'),
       projectName: $("#project-name-val").text(),
-      issueKey: $("#key-val").text(),
+      issueId: $("#key-val").text(),
       issueName: $("#summary-val").text(),
       issueType: $("#type-val").text().trim(),
       issuePriority: $("#priority-val").text().trim(),

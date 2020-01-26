@@ -55,16 +55,19 @@ class JiraIntegrationTool {
   }
 
   async checkoutBranch(branchWithIssueDetails) {
-    branchWithIssueDetails['repositoryPath'] = this.options['repositoryPath'];
-    return await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
+    branchWithIssueDetails['defaultRepositoryPath'] = this.options['defaultRepositoryPath'];
+    console.log(this.options['defaultRepositoryPath']);
+    const response = await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
+    this._showMessage(response);
   }
 
   async ping() {
-    return await this._execute(async () => await this.nativeHost.ping(versionString));
+    const response = await this._execute(async () => await this.nativeHost.ping(versionString));
+    this._showMessage(`${response.receiver} pong!`);
   }
 
   async updateConfiguration() {
-    this.options = await browser.storage.local.get(['host', 'repositoryPath']);
+    this.options = await browser.storage.local.get(['host', 'defaultRepositoryPath']);
     if (!this.options['host']) {
       browser.runtime.openOptionsPage()
       return;
@@ -84,10 +87,9 @@ class JiraIntegrationTool {
   async _execute(func) {
     try {
       const result = await func();
-      this._showMessage(result);
       return result;
     } catch(e) {
-      this._showMessage(JSON.stringify(e));
+      this._showMessage(e['message'] || JSON.stringify(e));
       return null;
     }
   }

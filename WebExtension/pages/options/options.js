@@ -1,6 +1,6 @@
 async function saveOptions(e) {
     const host = document.querySelector('#host').value;
-    const repositoryPath = document.querySelector('#repositoryPath').value;
+    const defaultRepositoryPath = document.querySelector('#defaultRepositoryPath').value;
 
     if (!host || !host.match(/^(https?|wss?|file|ftp|\*):\/\/(\*|\*\.[^*/]+|[^*/]+)\/.*$/)) {
         alert('Due to browser limitations the host url must match /^(https?|wss?|file|ftp|\*):\/\/(\*|\*\.[^*/]+|[^*/]+)\/.*$/')
@@ -9,7 +9,7 @@ async function saveOptions(e) {
 
     browser.storage.local.set({
         host,
-        repositoryPath
+        defaultRepositoryPath
     });
 
     restoreOptions();
@@ -18,9 +18,9 @@ async function saveOptions(e) {
 }
 
 async function restoreOptions() {
-    const options = await browser.storage.local.get(['host', 'repositoryPath']);
+    const options = await browser.storage.local.get(['host', 'defaultRepositoryPath']);
     document.querySelector('#host').value = options.host || 'https://jira.example.com/browse/*';
-    document.querySelector('#repositoryPath').value = options.repositoryPath || `C:\\Development\\YourRepository`;
+    document.querySelector('#defaultRepositoryPath').value = options.defaultRepositoryPath || `C:\\Development\\YourRepository`;
     if (!options['host']) {
         document.querySelector('.input-required').classList.remove('hidden');
     } else {
