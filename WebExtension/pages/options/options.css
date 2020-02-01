@@ -1,0 +1,29 @@
+
+.hidden {
+    display: none;
+}
+
+.input-required {
+    color: red;
+}
+
+label {
+    display: block;
+    padding: 10px;
+    padding-left: 0;
+    font-size: larger;
+    font-weight: bold;
+}
+
+input {
+    min-width: 400px;
+    padding: 7px;
+}
+
+button {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    width: 100px;
+    height: 30px;
+}

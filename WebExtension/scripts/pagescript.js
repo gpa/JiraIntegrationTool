@@ -1,13 +1,14 @@
-console.log('Jira integration tool is running.');
-
-var autoCheckout = false;
-
 function onBranchCheckoutButtonClicked(event) {
-  document.dispatchEvent(new CustomEvent('branchCheckoutTriggeredEvent', {
-    detail: {
-      branchId: $(event.currentTarget).data('branch-id')
-    }
-  }));
+  const branchWithIssueDetails = {
+      branchId: $(event.currentTarget).data('branch-id'),
+      projectName: $("#project-name-val").text(),
+      issueId: $("#key-val").text(),
+      issueTitle: $("#summary-val").text(),
+      issueType: $("#type-val").text().trim(),
+      issuePriority: $("#priority-val").text().trim(),
+      issueUrl: window.location.href,
+  }
+  document.dispatchEvent(new CustomEvent('branchCheckoutTriggeredEvent', { detail: branchWithIssueDetails }));
 }
 
 function createBranchCheckoutButton(branchId) {
@@ -20,31 +21,28 @@ function onBranchDialogMutation(mutations) {
   mutations.forEach(mutation => {
     mutation.addedNodes.forEach(addedNode => {
       $(addedNode).find('.branch-row .branch .branch-link').each((i, branchLinkNode, arr) => {
-        var button = createBranchCheckoutButton(branchLinkNode.innerText).insertAfter(branchLinkNode);
-        if (autoCheckout) {
-          autoCheckout = false;
-          button.click();
-          $('#aui-dialog-close').click();
-          return false;
-        }
+        createBranchCheckoutButton(branchLinkNode.innerText).insertAfter(branchLinkNode);
       });
     })
   })
 }
 
 function onBodyMutation(mutations) {
-  mutations.forEach(mutation => {
-    mutation.addedNodes.forEach(addedNode => {
+  for (let mutation of mutations) {
+    for (let addedNode of mutation.addedNodes) {
       if (addedNode.id == 'devstatus-branch-detail-dialog' && addedNode.classList.contains('jira-dialog-content-ready')) {
         dialogMutationObserver = new MutationObserver(onBranchDialogMutation);
         dialogMutationObserver.observe(addedNode, { childList: true, subtree: true });
+        return;
       }
-    });
-  });
+    }
+  }
 }
 
-new MutationObserver(onBodyMutation)
+$(document).ready(function() {
+  new MutationObserver(onBodyMutation)
   .observe(document.body, {
     childList: true,
     subtree: false
   });
+});
