@@ -27,3 +27,20 @@ button {
     width: 100px;
     height: 30px;
 }
+
+a, a:visited, a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    margin-top: 50px;
+}
+
+footer > a {
+    display: block;
+}
