@@ -1,5 +1,5 @@
 {
-  "name": "Jira integration tool",
+  "name": "io.github.gpa.jiraintegrationtool",
   "version": "1.0",
   "description": "Jira integration tool",
   "manifest_version": 2,
@@ -11,6 +11,8 @@
   ],
   "background": {
     "scripts": [
+      "polyfill/content-scripts-register-polyfill.js",
+      "polyfill/browser-polyfill.js",
       "scripts/background.js"
     ]
   },
@@ -26,5 +28,6 @@
       "id": "{f6309bf7-aaab-43a3-8f67-dd4b32224cfa}",
       "strict_min_version": "50.0"
     }
-  }
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZjfonTyoZwdoAQ4XTiFzRIvZ82ZWJzPkettt6HznmYDw9C35oJMt7SkOnUzKEghSS8MDi/Fw5UzT911XbyMq6hKB6rcqjYc8/Q7eVMw3S9NKQ6FRjNfagPavHAuElLhv9/QmteYgH4PhrDAh1RIZBtj+hIBlvw3B6GM7DYdfWfY9TecRYevTVRcaqX5mSBpneVN1HeH5WJlyqMqxSTVAgL7bhxRqcrgtLvtKsLkrL0yZaNSETgMlxLadOevrzySKD4+hWeTUNiUqfaNV/vWYJ5JY/a9iu3qvfPK7iFqZT+se+4tuhYrPI7/P3AoX1H10/GPhXVClpjK7pwMpKg7iwIDAQAB"
 }

@@ -44,18 +44,23 @@ class EnvironmentInstaller:
 
         platformName = platform.system()
         localScriptPath = path.realpath(__file__)
-        localManifestPath = path.join(path.dirname(localScriptPath), 'JiraIntegrationToolHost.json')
+        manifestName = 'io.github.gpa.jiraintegrationtool.host'
+        localManifestPath = path.join(path.dirname(localScriptPath), f'{manifestName}.json')
         
         remoteManifestPath = localManifestPath
         if platformName == 'Linux':
-            remoteManifestPath = path.expanduser('~/.mozilla/native-messaging-hosts/JiraIntegrationToolHost.json')
+            remoteManifestPath = path.expanduser(f'~/.mozilla/native-messaging-hosts/{manifestName}.json')
         elif platformName == 'Darwin':
-            remoteManifestPath = path.expanduser('~/Library/Application Support/Mozilla/NativeMessagingHosts/JiraIntegrationToolHost.json')
+            remoteManifestPath = path.expanduser(f'~/Library/Application Support/Mozilla/NativeMessagingHosts/{manifestName}.json')
 
         if platformName == 'Windows':
-            regKey = r"HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\JiraIntegrationToolHost"
-            os.system(rf'reg add "{regKey}" /ve /t REG_SZ /d "{localManifestPath}" /f')
-            pythonExecutionProxyPath = path.join(path.dirname(localScriptPath), r'JiraIntegrationToolHost.bat')
+            regKeys = [
+                rf"HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\{manifestName}",
+                rf"HKEY_CURRENT_USER\SOFTWARE\Google\Chrome\NativeMessagingHosts\{manifestName}"
+            ]
+            for regKey in regKeys:
+                os.system(rf'reg add "{regKey}" /ve /t REG_SZ /d "{localManifestPath}" /f')
+            pythonExecutionProxyPath = path.join(path.dirname(localScriptPath), f'{manifestName}.bat')
             with open(pythonExecutionProxyPath, 'w+') as batFile:
                 batFile.write(f'@echo off\r\ncall py -3 {localScriptPath} %0 %1 %2')
             localScriptPath = pythonExecutionProxyPath

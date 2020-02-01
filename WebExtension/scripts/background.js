@@ -3,7 +3,7 @@ const versionString = 'web-extension-0.1.0-alpha';
 class NativeHost {
 
   constructor() {
-    this._connection = browser.runtime.connectNative('JiraIntegrationToolHost');
+    this._connection = browser.runtime.connectNative('io.github.gpa.jiraintegrationtool.host');
     this._connection.onMessage.addListener(this._onIncomingMessage.bind(this));
     this._rpcId = 0;
     this._pendingCalls = {}
@@ -76,9 +76,13 @@ class JiraIntegrationTool {
     }
     this.contentScript = await browser.contentScripts.register({
       matches: [this.options['host']],
-      js: [{
-        file: 'scripts/contentscript.js'
-      }],
+      js: [
+        {
+          file: 'polyfill/browser-polyfill.js'
+        },
+        {
+          file: 'scripts/contentscript.js'
+        }],
       runAt: "document_end"
     });
   }
