@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import json
 import struct
 import platform
+import shutil
 
 versionString = 'python-host-0.1.0-alpha'
 
@@ -24,11 +27,16 @@ class NativeHostService:
             if not os.path.isfile(bash):
                 bash = os.path.expandvars(r"%SYSTEMDRIVE%\Program Files (x86)\Git\bin\sh.exe")
             os.system(rf'start "" "{bash}" -c "./actions.sh {params}"')
-        # elif platform.system() == 'Linux':
-        #     knownTerminals = ['x-terminal-emulator', 'konsole', 'termux', ]
-        #     os.system(rf'x-terminal-emulator -e ./actions.sh {params}')
-        # else:
-
+        elif platform.system() == 'Darwin':
+            os.system(f'osascript -e \'tell app "Terminal" to do script "sh {os.getcwd()}/actions.sh {params}"\'') 
+        else:
+            knownTerminals = ['konsole', 'gnome-terminal', 'xfce4-terminal', 'mate-terminal', 'terminator', 'x-terminal-emulator']
+            for executable in knownTerminals:
+                if shutil.which(executable):
+                    os.system(rf'{executable} -e "./actions.sh {params}"')
+                    return
+            raise RuntimeError('Failed to find a known terminal in your PATH.')
+            
 class EnvironmentInstaller:
     def installNativeMessagingManifest(self):
         from os import path
@@ -64,6 +72,7 @@ class EnvironmentInstaller:
                     json.dump(manifestData, remoteManifestFile, indent = 4)
                     remoteManifestFile.truncate()
 
+        os.chmod('actions.sh', 0o744)
         print('Manifest installed succesfully.')
 
 class NativeMessagingChannel:

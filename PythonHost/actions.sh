@@ -16,9 +16,8 @@
 checkoutBranch() 
 {
     cd $2
-    git stash
-
-    if [ `git branch --list $3` ]
+    
+    if [ "`git branch --list $3`" ]
     then
         git checkout $3
     else
