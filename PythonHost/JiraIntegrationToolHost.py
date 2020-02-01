@@ -11,12 +11,23 @@ class NativeHostService:
         return { 'receiver': versionString }
 
     def checkoutBranch(self, params):
-        scriptArguments = (rf'checkoutBranch \"{params["defaultRepositoryPath"]}\" {params["branchId"]} {params["issueId"]}'
+        params = (rf'checkoutBranch \"{params["defaultRepositoryPath"]}\" {params["branchId"]} {params["issueId"]}'
             rf' \"{params["projectName"]}\" \"{params["issueUrl"]}\" \"{params["issueTitle"]}\" {params["issueType"]} {params["issuePriority"]}')
+        self.runAction(params)
+
+    def runAction(self, params):
+        # We want to run the script in a terminal window since sometimes the commands require user interaction.
+        # Also this way we don't have to report the progress back to the addon.
+        # Unfortunately though there is no universal way of doing it.
         if platform.system() == 'Windows':
-            os.system(rf'start "" "%ProgramFiles%\\Git\\git-bash.exe" -c "./actions.sh {scriptArguments}"')
-        else:
-            os.system(rf'x-terminal-emulator -e ./actions.sh {scriptArguments}') #TODO
+            bash = os.path.expandvars(r"%ProgramFiles%\Git\git-bash.exe")
+            if not os.path.isfile(bash):
+                bash = os.path.expandvars(r"%SYSTEMDRIVE%\Program Files (x86)\Git\bin\sh.exe")
+            os.system(rf'start "" "{bash}" -c "./actions.sh {params}"')
+        # elif platform.system() == 'Linux':
+        #     knownTerminals = ['x-terminal-emulator', 'konsole', 'termux', ]
+        #     os.system(rf'x-terminal-emulator -e ./actions.sh {params}')
+        # else:
 
 class EnvironmentInstaller:
     def installNativeMessagingManifest(self):
