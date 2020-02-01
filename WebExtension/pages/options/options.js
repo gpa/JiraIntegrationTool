@@ -7,14 +7,13 @@ async function saveOptions(e) {
         return;
     }
 
-    browser.storage.local.set({
+    await browser.storage.local.set({
         host,
         defaultRepositoryPath
     });
 
-    restoreOptions();
-    browser.runtime.sendMessage({ method: 'updateConfiguration' });
     e.preventDefault();
+    location.reload();
 }
 
 async function restoreOptions() {

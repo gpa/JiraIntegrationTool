@@ -52,27 +52,27 @@ class JiraIntegrationTool {
   constructor() {
     this.nativeHost = new NativeHost();
     this.updateConfiguration();
+    browser.storage.onChanged.addListener(this.updateConfiguration.bind(this));
   }
 
   async checkoutBranch(branchWithIssueDetails) {
     branchWithIssueDetails['defaultRepositoryPath'] = this.options['defaultRepositoryPath'];
-    const response = await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
-    this._showMessage(response);
+    await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
   }
 
   async ping() {
     const response = await this._execute(async () => await this.nativeHost.ping(versionString));
-    this._showMessage(`${response.receiver} pong!`);
+    await this._showMessage(`${response.receiver} pong!`);
   }
 
   async updateConfiguration() {
     this.options = await browser.storage.local.get(['host', 'defaultRepositoryPath']);
-    if (!this.options['host']) {
-      browser.runtime.openOptionsPage()
+    if (!this.options['host'] || !this.options['defaultRepositoryPath']) {
+      await browser.runtime.openOptionsPage()
       return;
     }
     if (this.contentScript) {
-      this.contentScript.unregister();
+      await this.contentScript.unregister();
     }
     this.contentScript = await browser.contentScripts.register({
       matches: [this.options['host']],
@@ -88,13 +88,13 @@ class JiraIntegrationTool {
       const result = await func();
       return result;
     } catch(e) {
-      this._showMessage(e['message'] || JSON.stringify(e));
+      await this._showMessage(e['message'] || JSON.stringify(e));
       return null;
     }
   }
 
-  _showMessage(message) {
-    browser.notifications.create({
+  async _showMessage(message) {
+    return browser.notifications.create({
       'type': 'basic',
       'title': 'Jira Integration Tool',
       'message': message
