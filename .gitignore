@@ -1,5 +1,6 @@
 PythonHost/JiraIntegrationToolHost.bat
 bin/
 obj/
+packages/
 .vscode
 .vs
