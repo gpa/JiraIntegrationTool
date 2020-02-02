@@ -69,8 +69,7 @@ class JiraIntegrationTool {
   }
 
   async ping() {
-    const response = await this._execute(async () => await this._nativeHost.ping(versionString));
-    await this._showMessage(`${response.receiver} pong!`);
+    return await this._nativeHost.ping(versionString);
   }
 
   async updateConfiguration() {
