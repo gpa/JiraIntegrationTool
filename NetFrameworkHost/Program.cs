@@ -24,14 +24,16 @@ namespace JiraIntegrationTool.NetFrameworkHost
                 registryEntry.Close();
             }
 
-            var manifestPath = Path.Combine(Directory.GetCurrentDirectory(), "JiraIntegrationToolHost.json");
+            var manifestName = "io.github.gpa.jiraintegrationtool.host";
+            var manifestPath = Path.Combine(Directory.GetCurrentDirectory(), $"{manifestName}.json");
             var executablePath = Path.Combine(Directory.GetCurrentDirectory(), "JiraIntegrationToolHost.exe");
 
             var manifestJson = File.ReadAllText(manifestPath);
             var manifest = JObject.Parse(manifestJson);
             manifest["path"] = executablePath;
             File.WriteAllText(manifestPath, manifest.ToString());
-            SetRegistryKey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\JiraIntegrationToolHost", manifestPath);
+            SetRegistryKey($"SOFTWARE\\Mozilla\\NativeMessagingHosts\\{manifestName}", manifestPath);
+            SetRegistryKey($"SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\{manifestName}", manifestPath);
         }
 
         private static byte[] ReadBytes(Stream stream, int count)

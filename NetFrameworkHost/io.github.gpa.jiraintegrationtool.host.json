@@ -1,0 +1,12 @@
+{
+  "name": "io.github.gpa.jiraintegrationtool.host",
+  "description": "Interact with your local git repository directly from the jira issue page",
+  "path": "<< Execute the .exe to fill this in automatically >>",
+  "type": "stdio",
+  "allowed_extensions": [
+    "{f6309bf7-aaab-43a3-8f67-dd4b32224cfa}"
+  ],
+  "allowed_origins": [
+    "chrome-extension://acjncmhjfhahibjnppcclkdaicfkoflk/"
+  ]
+}
