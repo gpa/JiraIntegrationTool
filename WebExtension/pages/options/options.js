@@ -31,8 +31,10 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 document.querySelector('form').addEventListener('submit', saveOptions);
 document.querySelector('#pingHost').addEventListener('click', () => {
     browser.runtime.sendMessage({ method: 'ping' }).then(e => {
-        browser.extension.getBackgroundPage().alert(`${e.receiver}-pong!`);
+        document.querySelector('#pingResult').innerHTML = `${e.receiver}-pong!`;
+        setTimeout(() => document.querySelector('#pingResult').innerHTML = '', 3000);
     }).catch(e => {
-        alert(e['message'] || JSON.stringify(e));
+        document.querySelector('#pingResult').innerHTML = e['message'] || JSON.stringify(e);
+        setTimeout(() => document.querySelector('#pingResult').innerHTML = '', 3000);
     })
 });

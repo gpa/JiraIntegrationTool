@@ -44,3 +44,7 @@ footer {
 footer > a {
     display: block;
 }
+
+#pingResult {
+    text-align: center;
+}
