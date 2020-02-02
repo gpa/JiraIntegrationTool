@@ -29,3 +29,6 @@ async function restoreOptions() {
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.querySelector('form').addEventListener('submit', saveOptions);
+document.querySelector('#pingHost').addEventListener('click', () => {
+    browser.runtime.sendMessage({ method: 'ping' });
+});

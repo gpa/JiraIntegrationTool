@@ -3,8 +3,7 @@ const versionString = 'web-extension-0.1.0-alpha';
 class NativeHost {
 
   constructor() {
-    this._connection = browser.runtime.connectNative('io.github.gpa.jiraintegrationtool.host');
-    this._connection.onMessage.addListener(this._onIncomingMessage.bind(this));
+    this._reestablishConnection();
     this._rpcId = 0;
     this._pendingCalls = {}
   }
@@ -28,6 +27,7 @@ class NativeHost {
         });
         this._pendingCalls[this._rpcId-1] = { resolve, reject };
       } catch(e) {
+        this._reestablishConnection();
         reject(e);
       }
     })
@@ -45,37 +45,45 @@ class NativeHost {
     else
       binding.resolve(message.result);
     }
+
+    _reestablishConnection() {
+      this._connection = browser.runtime.connectNative('io.github.gpa.jiraintegrationtool.host');
+      this._connection.onMessage.addListener(this._onIncomingMessage.bind(this));
+    }
 }
 
 class JiraIntegrationTool {
 
   constructor() {
-    this.nativeHost = new NativeHost();
+    this._nativeHost = new NativeHost();
     this.updateConfiguration();
     browser.storage.onChanged.addListener(this.updateConfiguration.bind(this));
   }
 
   async checkoutBranch(branchWithIssueDetails) {
-    branchWithIssueDetails['defaultRepositoryPath'] = this.options['defaultRepositoryPath'];
-    await this._execute(async () => await this.nativeHost.checkoutBranch(branchWithIssueDetails));
+    if (this._checkoutLock && this._checkoutLock > Date.now())
+      return;
+    this._checkoutLock = Date.now() + 3000;
+    branchWithIssueDetails['defaultRepositoryPath'] = this._options['defaultRepositoryPath'];
+    await this._execute(async () => await this._nativeHost.checkoutBranch(branchWithIssueDetails));
   }
 
   async ping() {
-    const response = await this._execute(async () => await this.nativeHost.ping(versionString));
+    const response = await this._execute(async () => await this._nativeHost.ping(versionString));
     await this._showMessage(`${response.receiver} pong!`);
   }
 
   async updateConfiguration() {
-    this.options = await browser.storage.local.get(['host', 'defaultRepositoryPath']);
-    if (!this.options['host'] || !this.options['defaultRepositoryPath']) {
+    this._options = await browser.storage.local.get(['host', 'defaultRepositoryPath']);
+    if (!this._options['host'] || !this._options['defaultRepositoryPath']) {
       await browser.runtime.openOptionsPage()
       return;
     }
-    if (this.contentScript) {
-      await this.contentScript.unregister();
+    if (this._contentScript) {
+      await this._contentScript.unregister();
     }
-    this.contentScript = await browser.contentScripts.register({
-      matches: [this.options['host']],
+    this._contentScript = await browser.contentScripts.register({
+      matches: [this._options['host']],
       js: [
         {
           file: 'polyfill/browser-polyfill.js'

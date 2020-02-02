@@ -1,1 +1,6 @@
 PythonHost/io.github.gpa.jiraintegrationtool.host.bat
+bin/
+obj/
+packages/
+.vscode
+.vs
