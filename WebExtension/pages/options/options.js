@@ -31,11 +31,7 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 document.querySelector('form').addEventListener('submit', saveOptions);
 document.querySelector('#pingHost').addEventListener('click', () => {
     browser.runtime.sendMessage({ method: 'ping' }).then(e => {
-        browser.notifications.create({
-            'type': 'basic',
-            'title': 'Jira Integration Tool',
-            'message': `${e.receiver}-pong!`
-          });
+        browser.extension.getBackgroundPage().alert(`${e.receiver}-pong!`);
     }).catch(e => {
         alert(e['message'] || JSON.stringify(e));
     })
