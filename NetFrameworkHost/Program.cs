@@ -33,7 +33,6 @@ namespace JiraIntegrationTool.NetFrameworkHost
             manifest["path"] = executablePath;
             File.WriteAllText(manifestPath, manifest.ToString());
             SetRegistryKey($"SOFTWARE\\Mozilla\\NativeMessagingHosts\\{manifestName}", manifestPath);
-            SetRegistryKey($"SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\{manifestName}", manifestPath);
         }
 
         private static byte[] ReadBytes(Stream stream, int count)

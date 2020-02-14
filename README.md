@@ -18,7 +18,7 @@ The python host supports Windows, macOS and mainstream Linux systems.
 There is also a .NET Framework version of the host for Windows without the python dependency.
 
 The browser addon was tested on Firefox and Chrome, but you won't be able to install it on chrome since Google forbids
-installations outside the web store.
+installations outside the web store. Chrome configuration is also missing on the master branch.
 
 ## Installation steps
 
