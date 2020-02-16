@@ -3,7 +3,7 @@
 
 This project has the goal of reducing friction and saving time when working on Jira issues.
 
-Currently it is focused on local repository integration, allowing the automation of picking out the right branch, fetching, checking out, applying stashed changes and running custom scripts after checkout - Everything with just a single click, directly from the web browser. Your repository no longer feels isolated from Jira. It is also possible to fully customize the checkout logic through bash scripting.
+Currently it is focused on a local repository integration, allowing the automation of picking out the right branch, fetching, checking out, applying stashed changes and running custom scripts after checkout - Everything with just a single click, directly from the web browser - your repository no longer feels isolated from Jira! It is also possible to fully customize the checkout logic through bash scripting.
 
 This tool consists of a browser addon and a native executable. The addon injects elements into jira pages and communicates through [native messaging](https://developer.chrome.com/apps/nativeMessaging) with the native executable performing actions on your local repository.
 
@@ -18,7 +18,7 @@ The python host supports Windows, macOS and mainstream Linux systems.
 There is also a .NET Framework version of the host for Windows without the python dependency.
 
 The browser addon was tested on Firefox and Chrome, but you won't be able to install it on chrome since Google forbids
-installations outside the web store. Chrome configuration is also missing on the master branch.
+installations outside the web store.
 
 ## Installation steps
 
