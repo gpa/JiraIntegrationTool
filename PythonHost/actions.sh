@@ -29,7 +29,7 @@ checkoutBranch()
 onError()
 {
     echo "Action failed" >&2
-    /usr/bin/bash --login -i
+    /bin/bash --login -i
 }
 
 trap 'onError' 0
