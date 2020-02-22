@@ -10,7 +10,7 @@ namespace JiraIntegrationTool.NetFrameworkHost
 {
     class Program
     {
-        private const string VersionString = "netframework-host-0.1.0-alpha";
+        private const string VersionString = "netframework-host-1.0";
 
         private static void InstallNativeMessagingManifest()
         {

@@ -7,7 +7,7 @@ import struct
 import platform
 import shutil
 
-versionString = 'python-host-0.1.0-alpha'
+versionString = 'python-host-1.0'
 
 class NativeHostService:
     def ping(self, params):

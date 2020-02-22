@@ -1,4 +1,4 @@
-const versionString = 'web-extension-0.1.0-alpha';
+const versionString = 'web-extension-1.0';
 
 class NativeHost {
 
