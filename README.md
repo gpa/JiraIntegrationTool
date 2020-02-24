@@ -23,7 +23,7 @@ installations outside the web store.
 ## Installation steps
 
 1. Download the latest release from the [github release page](https://github.com/gpa/JiraIntegrationTool/releases). 
-2. Unzip the package and install the .xpi addon with firefox.
+2. Unzip the package and install the .xpi addon by opening it with firefox.
 3. Execute the python script (or the windows executable) without arguments. Make sure not to move the files after that or do it again. 
-4. You should be all set up by now! If you encounter any problems, make sure to restart your browser. 
+4. You're all set up! Although sometimes the native communication does not work right out of the box. Make sure to restart your browser and/or device if you encounter any problems.
 5. You can modify the checkout logic in the ``actions.sh`` file.
