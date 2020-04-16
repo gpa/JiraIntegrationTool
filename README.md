@@ -17,13 +17,13 @@ The python host supports Windows, macOS and mainstream Linux systems.
 
 There is also a .NET Framework version of the host for Windows without the python dependency.
 
-The browser addon was tested on Firefox and Chrome, but you won't be able to install it on chrome since Google forbids
-installations outside the web store.
+The browser addon works with Firefox.
+Chrome support is planned but not a priority.
 
 ## Installation steps
 
 1. Download the latest release from the [github release page](https://github.com/gpa/JiraIntegrationTool/releases). 
-2. Unzip the package and install the .xpi addon by opening it with firefox.
-3. Execute the python script (or the windows executable) without arguments. Make sure not to move the files after that or do it again. 
-4. You're all set up! Although sometimes the native communication does not work right out of the box. Make sure to restart your browser and/or device if you encounter any problems.
-5. You can modify the checkout logic in the ``actions.sh`` file.
+2. Unzip the package and execute the windows executable (or the python script) without any arguments. Make sure not to move the files after that or do it again. 
+3. install the .xpi addon by opening it with firefox.
+4. Click twice the "ping host" link in the options page. You should see a succesful pong message after the second time. If not, try restarting your browser.
+5. You're all set up! The checkout logic can be modified in the ``actions.sh`` file.
