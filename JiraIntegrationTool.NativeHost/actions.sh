@@ -9,9 +9,6 @@
 # $2 - Default repository path as configured in the extension options page
 # $3 - Name of the branch to checkout
 # $4 - Id of the jira issue
-# $5 - Name of the jira project
-# $6 - Full URL to the issue
-# $7, $8, $9 - issue title, issue type and issue priority respectively
 
 checkoutBranch() 
 {
@@ -29,7 +26,7 @@ checkoutBranch()
 onError()
 {
     echo "Action failed" >&2
-    /bin/bash --login -i
+    /usr/bin/bash --login -i
 }
 
 trap 'onError' 0

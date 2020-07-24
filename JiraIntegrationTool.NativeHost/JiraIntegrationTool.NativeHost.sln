@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraIntegrationTool.NativeHost", "JiraIntegrationTool.NativeHost.csproj", "{2F61C563-1B85-486C-9ECC-8C244D36F2B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F61C563-1B85-486C-9ECC-8C244D36F2B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F61C563-1B85-486C-9ECC-8C244D36F2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F61C563-1B85-486C-9ECC-8C244D36F2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F61C563-1B85-486C-9ECC-8C244D36F2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E3E63BF-EDB3-4E66-9264-C8685E2FC7BC}
+	EndGlobalSection
+EndGlobal

@@ -14,8 +14,7 @@ class NativeHostService:
         return { 'receiver': versionString }
 
     def checkoutBranch(self, params):
-        params = (rf'checkoutBranch \"{params["defaultRepositoryPath"]}\" {params["branchId"]} {params["issueId"]}'
-            rf' \"{params["projectName"]}\" \"{params["issueUrl"]}\" \"{params["issueTitle"]}\" {params["issueType"]} {params["issuePriority"]}')
+        params = (rf'checkoutBranch \"{params["defaultRepositoryPath"]}\" {params["branchId"]} {params["issueId"]}')
         self.runAction(params)
 
     def runAction(self, params):
@@ -44,7 +43,7 @@ class EnvironmentInstaller:
 
         platformName = platform.system()
         localScriptPath = path.realpath(__file__)
-        manifestName = 'io.github.gpa.jiraintegrationtool.host'
+        manifestName = 'jiraintegrationtool.nativehost'
         localManifestPath = path.join(path.dirname(localScriptPath), f'{manifestName}.json')
         
         remoteManifestPath = localManifestPath

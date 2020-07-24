@@ -39,7 +39,7 @@ async function restoreOptions() {
 
 function pingHost() {
     browser.runtime.sendMessage({ method: 'ping' })
-        .then(e => showMsg(`${e.receiver}-pong!`))
+        .then(e => showMsg(`${e.ReceiverName}-${e.ReceiverVersion}-pong!`))
         .catch(e => showMsg(e['message'] || JSON.stringify(e)))
 }
 

@@ -1,4 +1,4 @@
-PythonHost/io.github.gpa.jiraintegrationtool.host.bat
+PythonHost/jiraintegrationtool.nativehost.bat
 bin/
 obj/
 packages/
