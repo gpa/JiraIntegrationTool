@@ -1,4 +1,3 @@
-
 .hidden {
     display: none;
 }
@@ -45,6 +44,10 @@ footer > a {
     display: block;
 }
 
-#pingResult {
+#msgArea {
     text-align: center;
+}
+
+.error {
+    color: red;
 }

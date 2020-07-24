@@ -6,7 +6,9 @@
   "permissions": [
     "nativeMessaging",
     "notifications",
-    "storage",
+    "storage"
+  ],
+  "optional_permissions": [
     "<all_urls>"
   ],
   "background": {

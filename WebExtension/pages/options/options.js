@@ -7,6 +7,16 @@ async function saveOptions(e) {
         return;
     }
 
+    const permission = await browser.permissions.request({
+        origins: [host]
+    });
+
+    if (!permission) {
+        showMsg('Permission rejected. Configuration incomplete.', true);
+        restoreOptions();
+        return;
+    }
+
     await browser.storage.local.set({
         host,
         defaultRepositoryPath
@@ -27,14 +37,28 @@ async function restoreOptions() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
-document.querySelector('form').addEventListener('submit', saveOptions);
-document.querySelector('#pingHost').addEventListener('click', () => {
-    browser.runtime.sendMessage({ method: 'ping' }).then(e => {
-        document.querySelector('#pingResult').textContent = `${e.receiver}-pong!`;
-        setTimeout(() => document.querySelector('#pingResult').textContent = '', 3000);
-    }).catch(e => {
-        document.querySelector('#pingResult').textContent = e['message'] || JSON.stringify(e);
-        setTimeout(() => document.querySelector('#pingResult').textContent = '', 3000);
-    })
-});
+function pingHost() {
+    browser.runtime.sendMessage({ method: 'ping' })
+        .then(e => showMsg(`${e.receiver}-pong!`))
+        .catch(e => showMsg(e['message'] || JSON.stringify(e)))
+}
+
+function showMsg(msg, error = false) {
+    let msgArea = document.querySelector('#msgArea');
+    msgArea.textContent = msg;
+    if (error)
+        msgArea.classList.add('error');
+    setTimeout(() => { 
+        msgArea.textContent = '';
+        if (msgArea.classList.contains('error'))
+            msgArea.classList.remove('error');
+     }, 2000);
+}
+
+function init() {
+    document.addEventListener('DOMContentLoaded', restoreOptions);
+    document.querySelector('#saveOptions').addEventListener('click', saveOptions);
+    document.querySelector('#pingHost').addEventListener('click', pingHost);
+}
+
+init();
