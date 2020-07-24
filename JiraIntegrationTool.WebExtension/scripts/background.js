@@ -1,4 +1,4 @@
-const versionString = 'web-extension-1.0';
+const versionString = 'web-extension-1.1';
 
 class JiraIntegrationTool {
   

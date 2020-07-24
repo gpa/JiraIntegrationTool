@@ -5,7 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyTitle>JiraIntegrationTool.NativeHost</AssemblyTitle>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
     <AssemblyName>JiraIntegrationTool.NativeHost</AssemblyName>
     <RootNamespace>JiraIntegrationTool.NativeHost</RootNamespace>
   </PropertyGroup>
