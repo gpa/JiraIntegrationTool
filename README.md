@@ -1,7 +1,7 @@
 
 # Jira Integration Tool
 
-With the Jira Integration Tool switching issues feels no longer like a pain but an frictionless and enjoyable experience.
+With the Jira Integration Tool switching issues no longer feels like a pain but like an frictionless and enjoyable experience.
 Automate the actions of picking out the right branch, fetching, checking out, applying stashed changes and running custom scripts after checkout with just a single click, directly from your web browser.
 
 This tool consists of a browser addon and a native executable. The addon injects elements into jira pages and communicates through [native messaging](https://developer.chrome.com/apps/nativeMessaging) with the native executable performing actions on your local repository.
