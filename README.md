@@ -12,6 +12,7 @@ Fuhrter integrations, such as displaying git stashes for the issue, are planned 
 # Installation
 
 JIT supports Firefox and Chrome on Windows and depends only on the .NET Framework 4.5+
+
 There is also a cross platform python version of the host, although only supporting Firefox.
 
 ## Installation steps
@@ -19,5 +20,5 @@ There is also a cross platform python version of the host, although only support
 1. Download the latest release from the [github release page](https://github.com/gpa/JiraIntegrationTool/releases). 
 2. Unzip the package and execute the windows executable (or the python script) without any arguments. Make sure not to move the files after that or do it again. 
 3. Install the .xpi addon by opening it with firefox.
-4. Click the "ping host" link in the options page to make sure your connection to the host works. If it doesn't, try pinging it again. Restart your browser as a last resort.
+4. Click the "ping host" link in the options page to make sure your connection to the host works. If it doesn't, try pinging it again. Restart your browser or re-execute the host .exe as a last resort.
 5. You should be all set up! The checkout logic can be customized in the ``actions.sh`` file.
