@@ -1,9 +1,8 @@
 
 # Jira Integration Tool
 
-This project has the goal of reducing friction and saving time when working on Jira issues.
-
-Currently it is focused on a local repository integration, allowing the automation of picking out the right branch, fetching, checking out, applying stashed changes and running custom scripts after checkout - Everything with just a single click, directly from the web browser - your repository no longer feels isolated from Jira! It is also possible to fully customize the checkout logic through bash scripting.
+With the Jira Integration Tool switching issues feels no longer like a pain but an frictionless and enjoyable experience.
+Automate the actions of picking out the right branch, fetching, checking out, applying stashed changes and running custom scripts after checkout with just a single click, directly from your web browser.
 
 This tool consists of a browser addon and a native executable. The addon injects elements into jira pages and communicates through [native messaging](https://developer.chrome.com/apps/nativeMessaging) with the native executable performing actions on your local repository.
 
@@ -12,19 +11,13 @@ This tool consists of a browser addon and a native executable. The addon injects
 Fuhrter integrations, such as displaying git stashes for the issue, are planned in the future.
 # Installation
 
-The python host supports Windows, macOS and mainstream Linux systems.
-
-
-There is also a .NET Framework version of the host for Windows without the python dependency.
-
-The browser addon works with Firefox.
-
-Chrome support is planned but not a priority.
+JIT supports Firefox and Chrome on Windows and depends only on the .NET Framework 4.5+
+There is also a cross platform python version of the host, although only supporting Firefox.
 
 ## Installation steps
 
 1. Download the latest release from the [github release page](https://github.com/gpa/JiraIntegrationTool/releases). 
 2. Unzip the package and execute the windows executable (or the python script) without any arguments. Make sure not to move the files after that or do it again. 
 3. Install the .xpi addon by opening it with firefox.
-4. Click twice the "ping host" link in the options page. You should see a succesful pong message after the second time. If not, try restarting your browser.
-5. You're all set up! The checkout logic can be modified in the ``actions.sh`` file.
+4. Click the "ping host" link in the options page to make sure your connection to the host works. If it doesn't, try pinging it again. Restart your browser as a last resort.
+5. You should be all set up! The checkout logic can be customized in the ``actions.sh`` file.
