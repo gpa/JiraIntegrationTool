@@ -27,7 +27,6 @@ class JiraIntegrationTool {
   }
 
   async _onConfigurationChanged() {
-    console.log('config changed');
     this._options = await browser.storage.local.get([this._optionHost, this._optionDefaultRepositoryPath]);
     if (!(await this._enforceValidConfiguration()))
       return;
@@ -43,7 +42,6 @@ class JiraIntegrationTool {
   }
 
   async _registerContentScript() {
-    console.log('registering');
     if (this._contentScript) {
       await this._contentScript.unregister();
     }
