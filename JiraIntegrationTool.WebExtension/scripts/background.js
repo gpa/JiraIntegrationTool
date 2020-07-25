@@ -2,11 +2,10 @@ const versionString = 'web-extension-1.1';
 
 class JiraIntegrationTool {
   
-  _nativeHostServiceId = 'jiraintegrationtool.nativehost';
-  _optionDefaultRepositoryPath = 'defaultRepositoryPath';
-  _optionHost = 'host';
-
   constructor() {
+    this._establishNativeHostCommunication,_nativeHostServiceId = 'jiraintegrationtool.nativehost';
+    this._optionDefaultRepositoryPath = 'defaultRepositoryPath';
+    this._optionHost = 'host';
     this._nativeHostConnection = null;
     this._pendingRpcs = {};
     this._lastRpcId = 0;
